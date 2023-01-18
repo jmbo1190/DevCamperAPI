@@ -2,7 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 // Middleware files
-const logger = require('./middleware/logger');
+const logger = require('./middleware/logger'); // Custom logger middleware
+const morgan = require('morgan');              // Third party HTTP request logger middleware
 
 // Route Files
 const bootcamps = require('./routes/bootcamps');
@@ -12,16 +13,11 @@ dotenv.config({ path: "./config/config.env" });
 
 const app = express();
 
-// Define simple custom logging middleware  --> moved to middleware/logger.js
-// const logger = (req, res, next) => {
-//     req.hello = "Hello World"; // setting a variable that will be available to all subsequent routes
-//     console.log("Middleware 'logger':");
-//     console.log(`  ${req.method} ${req.protocol}://${req.get('host')}${req.originalUrl}`)
-//     next(); // needed to move on to next middleware / route
-// };
-
-// Actually use our custom logger middleware
+// Use Dev logging middleware
 app.use(logger);
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('combined'));
+}
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
