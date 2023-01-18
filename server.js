@@ -2,7 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 
 // Middleware files
-const logger = require('./middleware/logger'); // Custom logger middleware
+// const logger = require('./middleware/logger'); // Custom logger middleware
 const morgan = require('morgan');              // Third party HTTP request logger middleware
 
 // Route Files
@@ -14,7 +14,7 @@ dotenv.config({ path: "./config/config.env" });
 const app = express();
 
 // Use Dev logging middleware
-app.use(logger);
+// app.use(logger);
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('combined'));
 }
