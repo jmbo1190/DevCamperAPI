@@ -16,7 +16,7 @@ const app = express();
 // Use Dev logging middleware
 // app.use(logger);
 if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('combined'));
+    app.use(morgan('dev'));
 }
 
 // Mount routers
