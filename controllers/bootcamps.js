@@ -4,7 +4,11 @@
 exports.getBootcamps = (req, res, next) => {
   res
     .status(200)
-    .json({ success: true, msg: "Return all bootcamps" }); // moved from routes/bootcamps.js
+    .json({
+        success: true,
+        msg: "Return all bootcamps",
+        hello: req.hello,
+    }); // moved from routes/bootcamps.js
 };
 
 // @desc    Get a single bootcamps
@@ -20,9 +24,7 @@ exports.getBootcamp = (req, res, next) => {
 // @route   POST /api/v1/bootcamps
 // @access  Private
 exports.createBootcamp = (req, res, next) => {
-  res
-    .status(200)
-    .json({ success: true, msg: "Create new bootcamp" });
+  res.status(200).json({ success: true, msg: "Create new bootcamp" });
 };
 
 // @desc    Update a bootcamp
