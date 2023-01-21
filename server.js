@@ -17,6 +17,8 @@ const morgan = require('morgan');              // Third party HTTP request logge
 const bootcamps = require('./routes/bootcamps');
 // console.log(bootcamps);
 
+// Errort Handler
+const errorHandler = require('./middleware/error');
 
 const app = express();
 
@@ -32,6 +34,9 @@ if (process.env.NODE_ENV === 'development') {
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
                                           // for all routes defined in this router
+
+// Error Handler
+app.use(errorHandler);
 
 const PORT=process.env.PORT || 3000;
 
