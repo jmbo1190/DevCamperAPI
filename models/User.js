@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');   // module name is bcryptjs
+const jwt = require('jsonwebtoken');
                                       // a module named bcrypt exists but gives lots of problems
 
 // Create the User Schema
@@ -40,13 +41,26 @@ const UserSchema = new mongoose.Schema(
     }
 )
 
-// Encrypt password using bcrypt
+// Encrypt password (middleware) using bcrypt
 UserSchema.pre('save', async function(next) {
     const salt = await bcrypt.genSalt(10); // nb rounds (10 recommeded), 
                                            // higher = more secure but heavier
     this.password = await bcrypt.hash(this.password, salt);                                       
 })
 
+// Sign JWT (JasonWebToken) and return 
+// see https://jwt.io, https://github.com/auth0/node-jsonwebtoken
+// JWT has 3 Base-64 encode parts separated with dots:
+//   1) Header: algorithm (default: HS256) & token type
+//   2) Payload: sub (subject id), name, generated 'iat' (issuet at, seconds since Unix epoch)
+//   3) Signature
+// Define a method (not a 'static') which runs from an instantiated object
+UserSchema.methods.getSignedJwt = function(){
+    return jwt.sign({ id: this._id }
+        , process.env.JWT_SECRET
+        , { expiresIn: process.env.JWT_EXPIRE }
+        );
+}
 
 // Create and export the User model, based on UserSchema
 module.exports = mongoose.model('User', UserSchema);
