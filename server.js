@@ -1,7 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 // load configuration
 dotenv.config({ path: "./config/config.env" });
@@ -25,6 +26,9 @@ const app = express();
 
 // Body Parser
 app.use(express.json());
+
+// Cookie Parser
+app.use(cookieParser());
 
 // Use Dev logging middleware
 // app.use(logger);
