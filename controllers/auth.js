@@ -17,10 +17,11 @@ exports.register = asyncHandler(
             role
         });
 
-        // Ultimately we will send back a token
-        // but right now we just want the user registered
+        // Create Token
+        const token = user.getSignedJwt(); // 'method' called on instantiated object (user)
+                                           // (not 'static' called on class)
 
-        res.status(200).json({ success: true });  // initial simple method
+        res.status(200).json({ success: true, token });  // initial simple method
     }
 );
 
