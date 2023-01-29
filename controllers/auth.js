@@ -19,11 +19,16 @@ exports.register = asyncHandler(
             role
         });
 
+        /*
         // Create Token
         const token = user.getSignedJwt(); // 'method' called on instantiated object (user)
                                            // (not 'static' called on class)
 
         res.status(200).json({ success: true, token });  // initial simple method
+        */
+
+        // Create and send back Token with a cookie
+        sendTokenResponse(user, 200, res);
     }
 );
 
@@ -65,11 +70,36 @@ exports.login = asyncHandler(
             return next(new ErrorResponse('Invalid credentials', 401));  // 401 : unauthorized
         }
 
-        // Create Token
+        /*
+        // Create and send back Token
         const token = user.getSignedJwt(); // 'method' called on instantiated object (user)
                                            // (not 'static' called on class)
 
         res.status(200).json({ success: true, token });  // initial simple method
+        */
+
+        // Create and send back Token with a cookie
+        sendTokenResponse(user, 200, res);
     }
 );
 
+// Get Token from Model, create Cookie and send response
+const sendTokenResponse = (user, statusCode, res) => {
+    // Create Token
+    const token = user.getSignedJwt();  // 'method' called on instantiated object (user)
+                                        // (not 'static' called on class)
+    const options = {
+        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 3600 * 1000),
+        httpOnly: true  // We only want the cookie to be accessed from the client-side script
+    }   
+
+    if (process.env.NODE_ENV === "production") {
+        options.secure = true;
+    }
+    
+    // send cookie
+    res
+        .status(statusCode)
+        .cookie('token', token, options)
+        .json({ success: true, token });
+}
