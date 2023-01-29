@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');   // module name is bcryptjs
+                                      // a module named bcrypt exists but gives lots of problems
 
 // Create the User Schema
 const UserSchema = new mongoose.Schema(
@@ -37,6 +39,14 @@ const UserSchema = new mongoose.Schema(
         }
     }
 )
+
+// Encrypt password using bcrypt
+UserSchema.pre('save', async function(next) {
+    const salt = await bcrypt.genSalt(10); // nb rounds (10 recommeded), 
+                                           // higher = more secure but heavier
+    this.password = await bcrypt.hash(this.password, salt);                                       
+})
+
 
 // Create and export the User model, based on UserSchema
 module.exports = mongoose.model('User', UserSchema);
