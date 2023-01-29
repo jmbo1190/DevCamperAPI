@@ -15,7 +15,8 @@ const morgan = require('morgan');              // Third party HTTP request logge
 
 // Route Files
 const bootcamps = require('./routes/bootcamps');
-// console.log(bootcamps);
+const auth = require('./routes/auth');
+
 
 // Errort Handler
 const errorHandler = require('./middleware/error');
@@ -34,6 +35,8 @@ if (process.env.NODE_ENV === 'development') {
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
                                           // for all routes defined in this router
+app.use('/api/v1/auth', auth);
+
 
 // Error Handler
 app.use(errorHandler);
