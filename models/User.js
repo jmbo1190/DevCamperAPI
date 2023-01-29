@@ -62,6 +62,12 @@ UserSchema.methods.getSignedJwt = function(){
         );
 }
 
+
+// Match user-enetered password against hashed password in database
+UserSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+}
+
 // Create and export the User model, based on UserSchema
 module.exports = mongoose.model('User', UserSchema);
 
