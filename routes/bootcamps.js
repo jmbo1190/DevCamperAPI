@@ -9,7 +9,9 @@ const {
 
 const router = express.Router();
 
-router.route("/").get(getBootcamps).post(createBootcamp);
+const { protect } = require("../middleware/auth");
+
+router.route("/").get(getBootcamps).post(protect, createBootcamp);
 //router.get("/", (req, res) => {
 // res.status(200).json( { success: true, msg: 'Return all bootcamps' } ); // later on we will return data from database
 //});
@@ -20,8 +22,8 @@ router.route("/").get(getBootcamps).post(createBootcamp);
 router
   .route("/:id")
   .get(getBootcamp)
-  .put(updateBootcamp)
-  .delete(deleteBootcamp);
+  .put(protect, updateBootcamp)
+  .delete(protect, deleteBootcamp);
 // router.get("/:id", (req, res) => {
 // res.status(200).json( { success: true, msg: `Return bootcamp ${req.params.id}` } );
 // });
