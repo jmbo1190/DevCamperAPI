@@ -4,9 +4,12 @@ const Bootcamp = require("../models/Bootcamp");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 
+
+
 // @desc    Get all bootcamps
 // @route   GET /api/v1/bootcamps
 // @access  Public
+
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
   const bootcamps = await Bootcamp.find();
   res
@@ -23,13 +26,13 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req.params.id);
 
   if (!bootcamp) {
-    // return res.status(400).json({ success:false });  // correctly formatted id but not found
     return next(
       new ErrorResponse(`No bootcamp found with id of ${req.params.id}`, 404)
     );
   }
   res.status(200).json({ success: true, data: bootcamp });
 });
+
 
 // @desc    Create a new bootcamp
 // @route   POST /api/v1/bootcamps
@@ -68,16 +71,6 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
 // @access  Private
 
 exports.updateBootcamp = asyncHandler(async (req, res, next) => {
-
-  // Find and update bootcamp  
-  // const bootcamp = await Bootcamp.findByIdAndUpdate(
-  //     req.params.id,
-  // req.body,
-  // {
-  //     new: true,
-  //     runValidators: true
-  // }
-  // );
 
   // Only find bootcamp but do not update before checking
   let bootcamp = await Bootcamp.findById(req.params.id);
