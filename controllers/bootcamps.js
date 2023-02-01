@@ -64,27 +64,21 @@ exports.getBootcamp = asyncHandler(
 // @desc    Create a new bootcamp
 // @route   POST /api/v1/bootcamps
 // @access  Private
-/*
-exports.createBootcamp = async (req, res, next) => {
-    // console.log(req.body);
-    try {
-        const bootcamp = await Bootcamp.create(req.body)  // returns a promise like every mongoose method
-                               // note: fields in the body but not in the model will be dropped automatically
-        res.status(201).json({ 
-            success: true, 
-            data: bootcamp,
-            msg: "Created new bootcamp" 
-        });
-    } catch (err) {
-        //res.status(400).json({ success: false  });   // Bad request
-        // next(new ErrorResponse("Failed to create new bootcamp", 400)); 
-        next(err);  
-    }
-};
-*/
+
 exports.createBootcamp = asyncHandler(
     async (req, res, next) => {
-        const bootcamp = await Bootcamp.create(req.body)  // returns a promise like every mongoose method
+        // add User field to req.body
+        req.body.user = req.user.id;
+
+        // Check for previously published bootcamps by this user
+        const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
+
+        // Only let admins publish >1 bootcamp
+        if (publishedBootcamp && ! ['admin'].includes(req.user.role) ) {
+            return(next(new ErrorResponse(`User with id: ${req.user.id} has already published 1 bootcamp.`, 400)));
+        }
+
+        const bootcamp = await Bootcamp.create(req.body);  // returns a promise like every mongoose method
                                // note: fields in the body but not in the model will be dropped automatically
         res.status(201).json({ 
             success: true, 
