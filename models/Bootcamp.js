@@ -110,11 +110,11 @@ const BootcampSchema = new mongoose.Schema({
         default: Date.now  // use current date and time as defaults
       },
     // ADD THIS LATER WHEN ATHENTICATION IS IN PLACE
-    //   user: {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    //   }
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
+      }
 
 });
 
