@@ -5,6 +5,8 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 
+
+
 // @desc    Register user
 // @route   POST /api/v1/auth/register
 // @access  Public
@@ -79,17 +81,40 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+
+
 // @desc    Get the current logged in user
 // @route   POST /api/v1/auth/me
 // @access  Private (i.e. you need a token to access)
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user,
+    const user = await User.findById(req.user.id);
+  
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
   });
-});
+
+
+
+// @desc    Update password of logged in user
+// @route   PUT /api/v1/auth/updatepassword
+// @access  Private (i.e. you need a token to access)
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password');
+
+    // Check current password
+    if (! (await user.matchPassword(req.body.currentPassword))) {
+        return next(new ErrorResponse(`Wrong password`, 401));
+    }
+
+    user.password = req.body.newPassword;
+    user.save();
+  
+    sendTokenResponse(user, 200, res);
+  });
+    
+
 
 // @desc    Forgot Password - need reset
 // @route   POST /api/v1/auth/forgotpassword
@@ -163,6 +188,8 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
         sendTokenResponse(user, 200, res);
 
 });
+
+
 
 // Get Token from Model, create Cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
