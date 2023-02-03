@@ -15,12 +15,11 @@ exports.protect = asyncHandler(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   }
-
-  /*  // Commented out for testing purposes
-  else if (req.cookies.token) {
+  // Commented out for testing purposes
+  else if (req.cookies.token && process.env.AUTH_COOKIE === 'true') {
     token = req.cookies.token;
   }
-  */
+  
 
   // Make sure token exists
   if (! token) {
