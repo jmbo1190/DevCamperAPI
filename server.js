@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
+const mongoSanitize = require('express-mongo-sanitize');
 
 // load configuration
 dotenv.config({ path: "./config/config.env" });
@@ -13,6 +14,7 @@ connectDB();
 // Middleware files
 // const logger = require('./middleware/logger'); // Custom logger middleware
 const morgan = require('morgan');              // Third party HTTP request logger middleware
+
 
 // Route Files
 const bootcamps = require('./routes/bootcamps');
@@ -35,6 +37,9 @@ app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+// sanitize data  (prevent mongoDB injection)
+app.use(mongoSanitize());
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
