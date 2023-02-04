@@ -4,6 +4,7 @@ const colors = require('colors');
 const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 // load configuration
 dotenv.config({ path: "./config/config.env" });
@@ -40,6 +41,9 @@ if (process.env.NODE_ENV === 'development') {
 
 // sanitize data  (prevent mongoDB injection)
 app.use(mongoSanitize());
+
+// set security headers
+app.use(helmet());
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
