@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const xssClean = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
+const cors = require('cors');
 
 // load configuration
 dotenv.config({ path: "./config/config.env" });
@@ -63,6 +64,8 @@ app.use(limiter);
 // Prevent http param pollution
 app.use(hpp());
 
+// Enable CORS to allow use as a public API
+app.use(cors());
 
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
