@@ -5,6 +5,9 @@ const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const xssClean = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 
 // load configuration
 dotenv.config({ path: "./config/config.env" });
@@ -44,6 +47,25 @@ app.use(mongoSanitize());
 
 // set security headers
 app.use(helmet());
+
+// prevent XSS attacks
+app.use(xssClean());
+
+// global rate limiting
+const limiter = rateLimit({
+	windowMs: 10 * 60 * 1000, // 10 minutes
+	max: 100, // Limit each IP to max number of requests per `window` (here, per 10 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+app.use(limiter);
+
+// Prevent http param pollution
+app.use(hpp());
+
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter)
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
