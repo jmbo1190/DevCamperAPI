@@ -4,7 +4,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/User");
 
 
-// Protect routes
+// Protect routes by requiring token
 
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
@@ -13,9 +13,11 @@ exports.protect = asyncHandler(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ")
   ) {
+    // Set token from header 
     token = req.headers.authorization.split(" ")[1];
   }
-  // Commented out for testing purposes
+  // Set token from cookie - if config allows
+  // Can be disallowed to facilitate testing
   else if (req.cookies.token && process.env.AUTH_COOKIE === 'true') {
     token = req.cookies.token;
   }
@@ -30,7 +32,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log("decoded: ", decoded);
+    console.log("decoded token: ", decoded);
 
     req.user = await User.findById(decoded.id);
 
