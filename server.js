@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
@@ -69,6 +70,9 @@ app.use(cors());
 
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
+
+// Set static folder
+app.use('/api/v1', express.static(path.join(__dirname, 'public')));
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
