@@ -1,0 +1,834 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DevCamper",
+    "description": "An API to manage Bootcamps",
+    "contact": {},
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "variables": {}
+    }
+  ],
+  "paths": {
+    "/bootcamps": {
+      "get": {
+        "tags": [
+          "BootCamps"
+        ],
+        "summary": "Get all Bootcamps",
+        "description": "Public. Use this endpoint to retrieve all bootcamps in the database",
+        "operationId": "GetallBootcamps",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "BootCamps"
+        ],
+        "summary": "Add a new Bootcamp",
+        "description": "Private. A logged-in publisher can use this endpoint to add a new bootcamp.",
+        "operationId": "AddanewBootcamp",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/AddanewBootcampRequest"
+                  },
+                  {
+                    "example": {
+                      "name": "TEST BOOTCAMP 3",
+                      "description": "This is a 3rd dummy bootcamp for testing",
+                      "website": "https://devcentral.com",
+                      "phone": "(444) 444-4444",
+                      "email": "enroll@devcentral.com",
+                      "address": "45 Upper College Rd Kingston RI 02881",
+                      "careers": [
+                        "Mobile Development",
+                        "Web Development",
+                        "Data Science",
+                        "Business"
+                      ],
+                      "housing": false,
+                      "jobAssistance": true,
+                      "jobGuarantee": true,
+                      "acceptGi": true
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "TEST BOOTCAMP 3",
+                "description": "This is a 3rd dummy bootcamp for testing",
+                "website": "https://devcentral.com",
+                "phone": "(444) 444-4444",
+                "email": "enroll@devcentral.com",
+                "address": "45 Upper College Rd Kingston RI 02881",
+                "careers": [
+                  "Mobile Development",
+                  "Web Development",
+                  "Data Science",
+                  "Business"
+                ],
+                "housing": false,
+                "jobAssistance": true,
+                "jobGuarantee": true,
+                "acceptGi": true
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/bootcamps/63c8da347e40aed9a8e07835": {
+      "get": {
+        "tags": [
+          "BootCamps"
+        ],
+        "summary": "Get a single Bootcamp",
+        "description": "Public. Use this endpoint to retrieve information about a single bootcamp identified by its ID",
+        "operationId": "GetasingleBootcamp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "BootCamps"
+        ],
+        "summary": "Update Bootcamp",
+        "description": "Private. A logged-in publisher can use this endpoint to update their own Bootcamp; a logged-in admin user can update any bootcamp.",
+        "operationId": "UpdateBootcamp",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdateBootcampRequest"
+                  },
+                  {
+                    "example": {
+                      "housing": false
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "housing": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/bootcamps/5d713995b721c3bb38c1f5d0": {
+      "delete": {
+        "tags": [
+          "BootCamps"
+        ],
+        "summary": "Delete Bootcamp",
+        "description": "Private. A logged-in publisher can use this endpoint to delete their own Bootcamp, a logged-in admin to delete any Bootcamp.",
+        "operationId": "DeleteBootcamp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Register User",
+        "description": "Public. Use this endpoint to register as a new user or publisher.",
+        "operationId": "RegisterUser",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RegisterUserRequest"
+                  },
+                  {
+                    "example": {
+                      "name": "John Stag",
+                      "email": "j.stag@example.com",
+                      "password": "pwd456"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "John Stag",
+                "email": "j.stag@example.com",
+                "password": "pwd456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login User",
+        "description": "Public. Use this endpoint to login as a registered user, publisher or admin.",
+        "operationId": "LoginUser",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/LoginUserRequest"
+                  },
+                  {
+                    "example": {
+                      "email": "john@gmail.com",
+                      "password": "123456"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "email": "john@gmail.com",
+                "password": "123456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get Logged in User",
+        "description": "Private. Logged-in users, publishers and admins can use this endpoint to retrieve their information from the database.",
+        "operationId": "GetLoggedinUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": []
+      }
+    },
+    "/auth/forgotpassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Forgot Password",
+        "description": "Public. Use this endpoint to request a password reset. A link to the reset password endpoint (/api/v1/auth/resetpassword/:resettoken) will be sent to the user's email address, including a rest password token that identifies the user. The hashed token is temporarily stored in the database user's record, with an expiration date set to 10 min later. The matching reset password token will be used to authentify the user and allow them to set a new password.",
+        "operationId": "ForgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ForgotPasswordRequest"
+                  },
+                  {
+                    "example": {
+                      "email": "john@gmail.com"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "email": "john@gmail.com"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/resetpassword/8d85c02ed8f4eb807a77d8229beac413522433a2": {
+      "put": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Reset Password",
+        "description": "Public. This endpoind can be used by a user to set a new password without having to provide their (forgotten) current password. The identification of the user is based on the password reset token that is part of the endpoint, and needs to match the hashed token stored in the database user's record, within the expiration date. The new password is sent in the request body.",
+        "operationId": "ResetPassword",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ResetPasswordRequest"
+                  },
+                  {
+                    "example": {
+                      "password": "123457"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "password": "123457"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/auth/updatepassword": {
+      "put": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Update Password",
+        "description": "Private. A logged in user can use this endpoint to set a new password, after confirming their current password. Both current and new passwords must be sent in the request body.",
+        "operationId": "UpdatePassword",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UpdatePasswordRequest"
+                  },
+                  {
+                    "example": {
+                      "currentPassword": "123457",
+                      "newPassword": "123456"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "currentPassword": "123457",
+                "newPassword": "123456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false,
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Log out",
+        "description": "Private. This endpoint can be used by the current logged in user to logout, i.e. reset their token cookie to null, when cookie-based authentication is used. This has no effect on authentication via the \"Authorize: Bearer Token\" header.",
+        "operationId": "Logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddanewBootcampRequest": {
+        "title": "AddanewBootcampRequest",
+        "required": [
+          "name",
+          "description",
+          "website",
+          "phone",
+          "email",
+          "address",
+          "careers",
+          "housing",
+          "jobAssistance",
+          "jobGuarantee",
+          "acceptGi"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "careers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          "housing": {
+            "type": "boolean"
+          },
+          "jobAssistance": {
+            "type": "boolean"
+          },
+          "jobGuarantee": {
+            "type": "boolean"
+          },
+          "acceptGi": {
+            "type": "boolean"
+          }
+        },
+        "example": {
+          "name": "TEST BOOTCAMP 3",
+          "description": "This is a 3rd dummy bootcamp for testing",
+          "website": "https://devcentral.com",
+          "phone": "(444) 444-4444",
+          "email": "enroll@devcentral.com",
+          "address": "45 Upper College Rd Kingston RI 02881",
+          "careers": [
+            "Mobile Development",
+            "Web Development",
+            "Data Science",
+            "Business"
+          ],
+          "housing": false,
+          "jobAssistance": true,
+          "jobGuarantee": true,
+          "acceptGi": true
+        }
+      },
+      "AddBootcampwithscripttagtoattemptXSSRequest": {
+        "title": "AddBootcampwithscripttagtoattemptXSSRequest",
+        "required": [
+          "name",
+          "description",
+          "website",
+          "phone",
+          "email",
+          "address",
+          "careers",
+          "housing",
+          "jobAssistance",
+          "jobGuarantee",
+          "acceptGi"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "careers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          "housing": {
+            "type": "boolean"
+          },
+          "jobAssistance": {
+            "type": "boolean"
+          },
+          "jobGuarantee": {
+            "type": "boolean"
+          },
+          "acceptGi": {
+            "type": "boolean"
+          }
+        },
+        "example": {
+          "name": "TEST  3<script>alert('Hello')</script>",
+          "description": "This is a 3rd dummy bootcamp for testing",
+          "website": "https://devcentral.com",
+          "phone": "(444) 444-4444",
+          "email": "enroll@devcentral.com",
+          "address": "45 Upper College Rd Kingston RI 02881",
+          "careers": [
+            "Mobile Development",
+            "Web Development",
+            "Data Science",
+            "Business"
+          ],
+          "housing": false,
+          "jobAssistance": true,
+          "jobGuarantee": true,
+          "acceptGi": true
+        }
+      },
+      "UpdateBootcampRequest": {
+        "title": "UpdateBootcampRequest",
+        "required": [
+          "housing"
+        ],
+        "type": "object",
+        "properties": {
+          "housing": {
+            "type": "boolean"
+          }
+        },
+        "example": {
+          "housing": false
+        }
+      },
+      "RegisterUserRequest": {
+        "title": "RegisterUserRequest",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "John Stag",
+          "email": "j.stag@example.com",
+          "password": "pwd456"
+        }
+      },
+      "LoginUserRequest": {
+        "title": "LoginUserRequest",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "john@gmail.com",
+          "password": "123456"
+        }
+      },
+      "LoginasAdminRequest": {
+        "title": "LoginasAdminRequest",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "john@gmail.com",
+          "password": "123457"
+        }
+      },
+      "ForgotPasswordRequest": {
+        "title": "ForgotPasswordRequest",
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": "john@gmail.com"
+        }
+      },
+      "ResetPasswordRequest": {
+        "title": "ResetPasswordRequest",
+        "required": [
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "password": "123457"
+        }
+      },
+      "UpdatePasswordRequest": {
+        "title": "UpdatePasswordRequest",
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "currentPassword": "123457",
+          "newPassword": "123456"
+        }
+      },
+      "LoginHackwithguessedpasswordRequest": {
+        "title": "LoginHackwithguessedpasswordRequest",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Email"
+              },
+              {}
+            ]
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "email": {
+            "$gt": ""
+          },
+          "password": "123456"
+        }
+      },
+      "Email": {
+        "title": "Email",
+        "required": [
+          "$gt"
+        ],
+        "type": "object",
+        "properties": {
+          "$gt": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "$gt": ""
+        }
+      },
+      "LoginHack2Request": {
+        "title": "LoginHack2Request",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Email"
+              },
+              {}
+            ]
+          },
+          "password": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Password"
+              },
+              {}
+            ]
+          }
+        },
+        "example": {
+          "email": {
+            "$gt": ""
+          },
+          "password": {
+            "$gt": ""
+          }
+        }
+      },
+      "Password": {
+        "title": "Password",
+        "required": [
+          "$gt"
+        ],
+        "type": "object",
+        "properties": {
+          "$gt": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "$gt": ""
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "BootCamps",
+      "description": "This route conatins everything related with Bootcamps"
+    },
+    {
+      "name": "Authentication",
+      "description": "Routes for user authentication including register, login, reset password etc"
+    }
+  ]
+}
