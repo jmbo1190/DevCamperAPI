@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api/v1",
+      "url": "https://ub5s.ddns.net/api/v1/DevCamper-OpenApi3Json.json",
       "variables": {}
     }
   ],
