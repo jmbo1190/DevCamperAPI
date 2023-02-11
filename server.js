@@ -3,6 +3,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const connectDB = require('./config/db');
+const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
@@ -92,6 +93,18 @@ if (process.env.NODE_ENV === 'development') {
     // Set static folder for production
     app.use('/api/v1', express.static(path.join(__dirname, 'public')));
 }
+
+
+// File uploading
+app.use(fileupload(
+    // This would truncate the file to the specified limit
+    // and set req.files.file.truncated to true
+    // Note: a truncated jpg file might still display correctly
+    {limits: { 
+        fileSize: (parseInt(process.env.MAX_UPLOAD_FILE_SIZE) * 2) || 2000000 }
+    } 
+));
+
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
