@@ -2,3 +2,11 @@ node_modules/
 config/config.env
 doc/swagger-ui-4.15.5
 doc/gists
+doc/swagger-ui-4.15.5.zip
+doc/DevCamper-API-Comments.postman_collection.json
+doc/DevCamper-OpenApi3Json.json
+doc/DevCamper-OpenApi3Yaml.yaml
+doc/DevCamper.postman_collection.json
+doc/DevCamperAPI.postman_collection.json
+doc/index.html
+doc/html/index.html
