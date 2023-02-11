@@ -5,11 +5,17 @@ const {
   createBootcamp,
   updateBootcamp,
   deleteBootcamp,
+  bootcampPhotoUpload,
 } = require("../controllers/bootcamps");
 
 const router = express.Router();
 
 const { protect, authorize } = require("../middleware/auth");
+
+router
+  .route('/:id/photo')
+  .put(protect, authorize("publisher", "admin"), bootcampPhotoUpload)
+  ;
 
 router
   .route("/")
