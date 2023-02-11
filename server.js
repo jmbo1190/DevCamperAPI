@@ -71,8 +71,27 @@ app.use(cors());
 // Apply the rate limiting middleware to all requests
 app.use(limiter)
 
-// Set static folder
-app.use('/api/v1', express.static(path.join(__dirname, 'public')));
+// Redirect / to latest API version
+app.get('/', function(req, res){
+    res.redirect('/api/v1');
+});
+
+// Serve documentation for latest API version
+if (process.env.NODE_ENV === 'development') {
+    // Serve basic page for development
+    app.get('/api/v1', function(req, res){
+        console.log(req.headers);
+        let getBootcampsUrl = `${req.protocol}://${req.get("host")}/api/v1/bootcamps`;
+        console.log(getBootcampsUrl);
+        res.send(`
+        <h1>DevCamper API v1 (Development)</h1>
+        <a href='${getBootcampsUrl}'>Get all Bootcamps</a>
+        `);
+    });
+} else {
+    // Set static folder for production
+    app.use('/api/v1', express.static(path.join(__dirname, 'public')));
+}
 
 // Mount routers
 app.use('/api/v1/bootcamps', bootcamps);  // the path specified here will be used as base/prefix 
