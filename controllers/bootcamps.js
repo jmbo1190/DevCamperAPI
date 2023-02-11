@@ -168,12 +168,12 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
     );
   }
 
-// Check file size
-if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
-  return next(
-    new ErrorResponse(`Please upload a file no bigger than ${process.env.MAX_UPLOAD_FILE_SIZE} bytes`, 400)
-  );
-}
+  // Check file size
+  if (file.size > process.env.MAX_UPLOAD_FILE_SIZE) {
+    return next(
+      new ErrorResponse(`Please upload a file no bigger than ${process.env.MAX_UPLOAD_FILE_SIZE} bytes`, 400)
+    );
+  }
 
   // Create custom filename
   file.name = `photo_${bootcamp._id}${path.parse(file.name).ext}`;
